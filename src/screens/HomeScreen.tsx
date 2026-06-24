@@ -4,81 +4,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { RootStackParamList } from "../../App";
 import ComponentCard from "../components/ComponentCard";
 
-// SVG icons — inline for now, swap with your own SVG components
-import Svg, { Path, Rect, Circle } from "react-native-svg";
-
-const ShimmerIcon = ({ color }: { color?: string }) => (
-  <Svg width={30} height={30} viewBox="0 0 24 24" fill="none">
-    <Path
-      d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"
-      stroke={color ?? "#6366f1"}
-      strokeWidth={1.8}
-      strokeLinecap="round"
-    />
-  </Svg>
-);
-
-const StaggerIcon = ({ color }: { color?: string }) => (
-  <Svg width={30} height={30} viewBox="0 0 24 24" fill="none">
-    <Rect
-      x="3"
-      y="3"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color ?? "#22c55e"}
-      strokeWidth={1.8}
-    />
-    <Rect
-      x="14"
-      y="3"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color ?? "#22c55e"}
-      strokeWidth={1.8}
-    />
-    <Rect
-      x="3"
-      y="14"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color ?? "#22c55e"}
-      strokeWidth={1.8}
-    />
-    <Rect
-      x="14"
-      y="14"
-      width="7"
-      height="7"
-      rx="1.5"
-      stroke={color ?? "#22c55e"}
-      strokeWidth={1.8}
-    />
-  </Svg>
-);
-
-const COMPONENTS = [
-  {
-    id: "shimmer",
-    label: "Shimmer Loader",
-    Icon: ShimmerIcon,
-    color: "#6366f1",
-  },
-  { id: "stagger", label: "Stagger Grid", Icon: StaggerIcon, color: "#22c55e" },
-  // Add more here as you build them
-];
+import { COMPONENTS } from "../data/components";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export default function HomeScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Text style={styles.title}>coool stuff ✦</Text>
         <Text style={styles.sub}>Tap anything to explore</Text>
-      </View>
+      </View> */}
       <FlatList
         data={COMPONENTS}
         keyExtractor={(item) => item.id}
@@ -90,9 +26,7 @@ export default function HomeScreen({ navigation }: Props) {
             label={item.label}
             Icon={item.Icon as any}
             accentColor={item.color}
-            onPress={() =>
-              navigation.navigate("Demo", { id: item.id, title: item.label })
-            }
+            onPress={() => navigation.navigate(item.screen as any)}
           />
         )}
       />
@@ -120,7 +54,7 @@ const styles = StyleSheet.create({
   },
   grid: {
     paddingHorizontal: 16,
-    paddingTop: 16,
+    paddingTop: 24,
   },
   row: {
     justifyContent: "flex-start",
